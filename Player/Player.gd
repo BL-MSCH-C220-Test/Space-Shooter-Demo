@@ -5,7 +5,7 @@ var speed = 5.0
 var max_speed = 400.0
 var rot_speed = 5.0
 
-var nose = Vector2(0,-45)
+var nose = Vector2(0,-60)
 
 onready var Bullet = load("res://Player/Bullet.tscn")
 var Effects = null
