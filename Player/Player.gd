@@ -7,12 +7,14 @@ var rot_speed = 5.0
 
 var nose = Vector2(0,-60)
 
+var target_pos = Vector2.ZERO
+
 var health = 100
 
 onready var Bullet = load("res://Player/Bullet.tscn")
 
 func _ready():
-	pass
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func _physics_process(_delta):
@@ -21,6 +23,11 @@ func _physics_process(_delta):
 	velocity = move_and_slide(velocity, Vector2.ZERO)
 	position.x = wrapf(position.x, 0.0, Global.VP.x)
 	position.y = wrapf(position.y, 0.0, Global.VP.y)
+	$Crosshair.global_position = target_pos
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		target_pos += event.relative
 
 func damage(d):
 	health -= d
@@ -38,6 +45,13 @@ func get_input() -> Vector2:
 		rotation_degrees -= rot_speed
 	if Input.is_action_pressed("right"):
 		rotation_degrees += rot_speed
+	if Input.is_action_just_pressed("shoot_mouse"):
+		var Effects = get_node_or_null("/root/Game/Effects")
+		if Effects != null:
+			var bullet = Bullet.instance()
+			Effects.add_child(bullet)
+			var rot = global_position.angle_to_point(target_pos) - PI/2
+			bullet.shoot(global_position + nose.rotated(rot), rot, velocity)
 	if Input.is_action_just_pressed("shoot"):
 		var Effects = get_node_or_null("/root/Game/Effects")
 		if Effects != null:
