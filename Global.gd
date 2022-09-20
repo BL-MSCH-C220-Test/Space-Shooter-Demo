@@ -25,6 +25,19 @@ func _unhandled_input(event):
 func _resize():
 	VP = get_viewport().size
 
+func reset():
+	score = 0
+	time = 100
+	lives = 5
+	level = -1
+	
+func update_score(s):
+	score += s
+	var hud = get_node_or_null("/root/Game/UI/HUD")
+	if hud != null:
+		hud.update_score()
+
+
 func update_lives(l):
 	lives += l
 	var hud = get_node_or_null("/root/Game/UI/HUD")
@@ -33,6 +46,9 @@ func update_lives(l):
 
 func next_level():
 	level += 1
-	var l = get_node_or_null("/root/Game/UI/Level")
-	if l != null:
-		l.show_labels()
+	if level < 0 or level >= len(levels):
+		var _scene = get_tree().change_scene("res://UI/End.tscn")
+	else:
+		var l = get_node_or_null("/root/Game/UI/Level")
+		if l != null:
+			l.show_labels()

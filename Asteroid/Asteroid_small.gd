@@ -11,4 +11,5 @@ func _physics_process(_delta):
 func damage(d):
 	health -= d
 	if health <= 0:
+		Global.update_score(100)
 		queue_free()

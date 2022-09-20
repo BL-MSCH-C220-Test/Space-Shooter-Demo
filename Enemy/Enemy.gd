@@ -5,6 +5,7 @@ var initial_position = Vector2.ZERO
 var direction = Vector2(1.5,0)
 var wobble = 30.0
 var shoot_prob = 0.1
+var health = 50
 
 onready var Bullet = load("res://Enemy/Bullet.tscn")
 
@@ -38,4 +39,10 @@ func _on_Timer_timeout():
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		body.damage(100)
+		queue_free()
+
+func damage(d):
+	health -= d
+	if health <= 0:
+		Global.update_score(500)
 		queue_free()
