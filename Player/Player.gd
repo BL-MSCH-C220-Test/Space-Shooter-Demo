@@ -11,6 +11,8 @@ var health = 100
 
 onready var Bullet = load("res://Player/Bullet.tscn")
 
+var Bullet_Sound = null
+
 func _ready():
 	pass
 
@@ -41,6 +43,9 @@ func get_input() -> Vector2:
 	if Input.is_action_just_pressed("shoot"):
 		var Effects = get_node_or_null("/root/Game/Effects")
 		if Effects != null:
+			Bullet_Sound = get_node_or_null("/root/Game/Bullet_Sound")
+			if Bullet_Sound != null:
+				Bullet_Sound.play()
 			var bullet = Bullet.instance()
 			Effects.add_child(bullet)
 			bullet.shoot(global_position + nose.rotated(rotation), rotation, velocity)
