@@ -9,6 +9,8 @@ var nose = Vector2(0,-60)
 
 var health = 100
 
+var reloaded = true
+
 onready var Bullet = load("res://Player/Bullet.tscn")
 
 func _ready():
@@ -38,12 +40,16 @@ func get_input() -> Vector2:
 		rotation_degrees -= rot_speed
 	if Input.is_action_pressed("right"):
 		rotation_degrees += rot_speed
-	if Input.is_action_just_pressed("shoot"):
-		var Effects = get_node_or_null("/root/Game/Effects")
-		if Effects != null:
-			var bullet = Bullet.instance()
-			Effects.add_child(bullet)
-			bullet.shoot(global_position + nose.rotated(rotation), rotation, velocity)
+	if Input.is_action_pressed("shoot"):
+		if Global.ammo > 0 and reloaded:
+			var Effects = get_node_or_null("/root/Game/Effects")
+			if Effects != null:
+				Global.update_ammo(-1)
+				reloaded = false
+				$Reload.start()
+				var bullet = Bullet.instance()
+				Effects.add_child(bullet)
+				bullet.shoot(global_position + nose.rotated(rotation), rotation, velocity)
 	return to_return.rotated(rotation)
 
 
@@ -54,3 +60,7 @@ func _on_Area2D_body_entered(body):
 			pass
 		body.damage(100)
 		damage(100)
+
+
+func _on_Reload_timeout():
+	reloaded = true

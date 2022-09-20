@@ -4,12 +4,16 @@ func _ready():
 	update_score()
 	update_time()
 	update_lives()
+	update_ammo()
 
 func update_score():
 	$Score.text = "Score: " + str(Global.score)
 
 func update_time():
 	$Time.text = "Time: " + str(Global.time)
+
+func update_ammo():
+	$Ammo.text = "Ammo: " + str(Global.ammo)
 
 func update_lives():
 	get_tree().call_group("lives", "queue_free")

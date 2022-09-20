@@ -11,8 +11,10 @@ var enemies = 1
 var score = 0
 var time = 100
 var lives = 5
+var ammo = 0
 
 func _ready():
+	reset()
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	randomize()
 	VP = get_viewport().size
@@ -30,6 +32,7 @@ func reset():
 	time = 100
 	lives = 5
 	level = -1
+	ammo = 20
 	
 func update_score(s):
 	score += s
@@ -43,6 +46,13 @@ func update_lives(l):
 	var hud = get_node_or_null("/root/Game/UI/HUD")
 	if hud != null:
 		hud.update_lives()
+
+func update_ammo(a):
+	ammo += a
+	var hud = get_node_or_null("/root/Game/UI/HUD")
+	if hud != null:
+		hud.update_ammo()
+
 
 func next_level():
 	level += 1
