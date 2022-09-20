@@ -2,7 +2,7 @@
 
 Demonstration for MSCH-C220
 
-A basic space-shooter arcade game, created in Godot.
+A basic space-shooter arcade game, created in Godot. An "advanced feature" demonstration implementing limited ammo (and ammo refills).
 
 ## Implementation
 
