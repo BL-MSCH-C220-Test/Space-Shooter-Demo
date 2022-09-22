@@ -47,7 +47,14 @@ func update_lives(l):
 func next_level():
 	level += 1
 	if level < 0 or level >= len(levels):
-		var _scene = get_tree().change_scene("res://UI/End.tscn")
+		get_tree().paused = true
+		var UI = get_node_or_null("/root/Game/UI")
+		if UI == null:
+			var _scene = get_tree().change_scene("res://UI/End.tscn")
+		else:
+			var Victory = load("res://Effects/Victory.tscn")
+			var victory = Victory.instance()
+			UI.add_child(victory)
 	else:
 		var l = get_node_or_null("/root/Game/UI/Level")
 		if l != null:
